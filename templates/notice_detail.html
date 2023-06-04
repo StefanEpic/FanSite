@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Notice
+{% endblock title %}
+
+{% block content %}
+    <div class="card md-6">
+        <h5 class="card-header">{{ notice.title }}</h5>
+        <div class="card-body">
+            <div>
+                {{notice.text|safe }}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
