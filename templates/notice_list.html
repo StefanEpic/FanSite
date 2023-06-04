@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'notice.html' %}
 
 {% block title %}
 Notice
 {% endblock title %}
 
-{% block content %}
+{% block content_notice %}
     {% for notice in notices %}
     <div class="card mb-3">
       <div class="card-body">
@@ -15,6 +15,9 @@ Notice
             {% endfor %}
         </p>
         <button type="button" class="btn btn-sm btn-primary" onclick="document.location='{{ notice.pk }}'">Info</button>
+        {% if user.is_authenticated %}
+          <button type="button" class="btn btn-sm btn-primary ms-1" onclick="document.location='{{ notice.pk }}'">Respond</button>
+        {% endif %}
       </div>
     </div>
     {% endfor %}
@@ -52,7 +55,7 @@ Notice
         </nav>
     </div>
 
-{% endblock content %}
+{% endblock content_notice %}
 
 
 

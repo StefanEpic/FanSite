@@ -14,3 +14,11 @@ class NoticeForm(forms.ModelForm):
             'title',
             'text',
         ]
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Notice
+        fields = [
+            'text',
+        ]

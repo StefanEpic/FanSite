@@ -13,13 +13,26 @@ class NoticeList(ListView):
     ordering = ['-date_in']
     template_name = 'notice_list.html'
     context_object_name = 'notices'
-    paginate_by = 5
+    paginate_by = 4
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
-class NoticeDetail(LoginRequiredMixin, DetailView):
+class NoticeDetail(DetailView):
     model = Notice
     template_name = 'notice_detail.html'
     context_object_name = 'notice'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.request.path.split('/')[-2]
+        notice = Notice.objects.get(id=pk)
+        context['is_author'] = (self.request.user == notice.author)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class NoticeCreate(LoginRequiredMixin, CreateView):
@@ -33,12 +46,22 @@ class NoticeCreate(LoginRequiredMixin, CreateView):
         notice.author = self.request.user
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
 
 class NoticeUpdate(LoginRequiredMixin, TestIsAuthorThisNotice, UpdateView):
     form_class = NoticeForm
     model = Notice
     template_name = 'notice_edit.html'
     success_url = reverse_lazy('notice_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
 
 
 class NoticeDelete(LoginRequiredMixin, TestIsAuthorThisNotice, DeleteView):
@@ -58,3 +81,8 @@ class CategoryList(ListView):
     def get_queryset(self):
         self.category = get_object_or_404(Category, id=self.kwargs['pk'])
         return Notice.objects.filter(category=self.category).order_by('-date_in')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
