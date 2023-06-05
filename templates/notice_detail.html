@@ -14,17 +14,19 @@ Notice
             {% endfor %}
             </div>
             <div>
-                {{notice.text|safe }}
+                <p>{{notice.text|safe }}</p>
             </div>
             <div>
-                <small class="text-light fw-semibold">Author: {{ notice.author}}</small>
+                <p><small class="text-light fw-semibold">Author: {{ notice.author}}</small></p>
             </div>
-            {% if is_author %}
             <div>
-              <button type="button" class="btn btn-sm btn-primary" onclick="document.location='update/'">Edit</button>
-              <button type="button" class="btn btn-sm btn-danger ms-1" onclick="document.location='delete/'">Delete</button>
+              {% if is_author %}
+                <button type="button" class="btn btn-sm btn-primary" onclick="document.location='update/'">Edit</button>
+                <button type="button" class="btn btn-sm btn-danger ms-1" onclick="document.location='delete/'">Delete</button>
+              {% else %}
+                <button type="button" class="btn btn-sm btn-primary" onclick="document.location='message/'">Response</button>
+              {% endif %}
             </div>
-            {% endif %}
         </div>
     </div>
 {% endblock content_notice %}

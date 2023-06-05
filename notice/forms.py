@@ -1,5 +1,5 @@
 from django import forms
-from .models import Notice
+from .models import Notice, Message
 
 from ckeditor.widgets import CKEditorWidget
 
@@ -18,7 +18,7 @@ class NoticeForm(forms.ModelForm):
 
 class MessageForm(forms.ModelForm):
     class Meta:
-        model = Notice
+        model = Message
         fields = [
             'text',
         ]

@@ -5,27 +5,18 @@ Notice
 {% endblock title %}
 
 {% block content_notice %}
-    {% for notice in notices %}
+    {% for message in messages %}
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title">{{ notice.title }}</h5>
-        <p class="card-text">
-            {% for category in notice.category.all %}
-               <a href="{% url 'category_list' category.id %}">{{ category }}</a>
-            {% endfor %}
-        </p>
+        <h5 class="card-title">{{ message.notice.title }}</h5>
         <div>
-            <p><small class="text-light fw-semibold">Author: {{ notice.author}}</small></p>
+            <p>{{ message.text }}</p>
         </div>
-        <button type="button" class="btn btn-sm btn-primary" onclick="document.location='{{ notice.pk }}'">Info</button>
-        {% if user.is_authenticated %}
-          {% if user.pk == notice.author.pk %}
-            <button type="button" class="btn btn-sm btn-primary ms-1" onclick="document.location='{{ notice.pk }}/update'">Edit</button>
-            <button type="button" class="btn btn-sm btn-danger ms-1" onclick="document.location='{{ notice.pk }}/delete'">Delete</button>
-          {% else %}
-            <button type="button" class="btn btn-sm btn-primary ms-1" onclick="document.location='{{ notice.pk }}'">Respond</button>
-          {% endif %}
-        {% endif %}
+        <div>
+            <p><small class="text-light fw-semibold">Author: {{ message.author}}</small></p>
+        </div>
+        <button type="button" class="btn btn-sm btn-success" onclick="document.location='{{ notice.pk }}'">Apply</button>
+        <button type="button" class="btn btn-sm btn-danger ms-1" onclick="document.location='{{ notice.pk }}/delete'">Delete</button>
       </div>
     </div>
     {% endfor %}

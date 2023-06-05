@@ -8,9 +8,8 @@ Notice
     <!-- Nav -->
     <div class="app-brand demo ">
       <a href="" class="app-brand-link">
-        <span class="app-brand-text demo menu-text fw-bolder ms-4">FanSite</span>
+        <span class="app-brand-text demo menu-text fw-bolder ms-4">News</span>
       </a>
-      <span class="app-brand-text demo menu-text fw-bolder ms-4">/</span>
       <a href="{% url 'notice_list' %}" class="app-brand-link">
         <span class="app-brand-text demo menu-text fw-bolder ms-4">Ads</span>
       </a>
@@ -32,12 +31,12 @@ Notice
 
     <!-- Content types -->
     <div class="row mb-12 justify-content-center">
-      <div class="col-md-7">
+      <div class="col-md-6">
         {% block content_notice %}
         {{ content_notice }}
         {% endblock content_notice %}
       </div>
-      <div class="col-md-5">
+      <div class="col-md-6">
       </div>
     </div>
     <!--/ Content types -->

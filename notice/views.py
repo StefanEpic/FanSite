@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
-from .forms import NoticeForm
-from .models import Notice, Category
+from .forms import NoticeForm, MessageForm
+from .models import Notice, Category, Message
 from .utils import TestIsAuthorThisNotice
 
 
@@ -13,7 +13,7 @@ class NoticeList(ListView):
     ordering = ['-date_in']
     template_name = 'notice_list.html'
     context_object_name = 'notices'
-    paginate_by = 4
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,9 +28,7 @@ class NoticeDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.request.path.split('/')[-2]
-        notice = Notice.objects.get(id=pk)
-        context['is_author'] = (self.request.user == notice.author)
+        context['is_author'] = (self.request.user == self.object.author)
         context['categories'] = Category.objects.all()
         return context
 
@@ -86,3 +84,51 @@ class CategoryList(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
+
+class MessageCreate(LoginRequiredMixin, CreateView):
+    form_class = MessageForm
+    model = Message
+    template_name = 'message_edit.html'
+    success_url = reverse_lazy('notice_list')
+
+    def form_valid(self, form):
+        message = form.save(commit=False)
+        message.author = self.request.user
+        message.notice = Notice.objects.get(pk=self.request.path.split('/')[-3])
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class MessageList(ListView):
+    model = Message
+    ordering = ['-date_in']
+    template_name = 'message_list.html'
+    # context_object_name = 'messages'
+    paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['messages'] = Message.objects.filter(author=self.request.user)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class MessageApply(LoginRequiredMixin, DeleteView):
+    model = Message
+    success_url = reverse_lazy('message_list')
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
+
+
+class MessageDelete(LoginRequiredMixin, DeleteView):
+    model = Message
+    success_url = reverse_lazy('message_list')
+
+    def get(self, request, *args, **kwargs):
+        return self.delete(request, *args, **kwargs)
