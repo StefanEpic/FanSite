@@ -25,3 +25,4 @@ class Message(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     date_in = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=True)

@@ -13,10 +13,10 @@ Notice
             <p>{{ message.text }}</p>
         </div>
         <div>
-            <p><small class="text-light fw-semibold">Author: {{ message.author}}</small></p>
+            <p><small class="text-light fw-semibold">From: {{ message.author}}</small></p>
         </div>
-        <button type="button" class="btn btn-sm btn-success" onclick="document.location='{{ notice.pk }}'">Apply</button>
-        <button type="button" class="btn btn-sm btn-danger ms-1" onclick="document.location='{{ notice.pk }}/delete'">Delete</button>
+        <button type="button" class="btn btn-sm btn-success" onclick="document.location='{% url 'message_apply' message.pk %}'">Apply</button>
+        <button type="button" class="btn btn-sm btn-danger ms-1" onclick="document.location='{% url 'message_delete' message.pk %}'">Delete</button>
       </div>
     </div>
     {% endfor %}

@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
@@ -89,7 +91,7 @@ class CategoryList(ListView):
 class MessageCreate(LoginRequiredMixin, CreateView):
     form_class = MessageForm
     model = Message
-    template_name = 'message_edit.html'
+    template_name = 'message_create.html'
     success_url = reverse_lazy('notice_list')
 
     def form_valid(self, form):
@@ -104,31 +106,39 @@ class MessageCreate(LoginRequiredMixin, CreateView):
         return context
 
 
-class MessageList(ListView):
+class MessageList(LoginRequiredMixin, ListView):
     model = Message
     ordering = ['-date_in']
     template_name = 'message_list.html'
-    # context_object_name = 'messages'
     paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['messages'] = Message.objects.filter(author=self.request.user)
+        context['messages'] = Message.objects.filter(notice__author=self.request.user, status=True)
         context['categories'] = Category.objects.all()
         return context
 
 
-class MessageApply(LoginRequiredMixin, DeleteView):
-    model = Message
-    success_url = reverse_lazy('message_list')
+@login_required
+def message_delete(request, pk):
+    try:
+        message = Message.objects.get(id=pk)
+        if request.user == message.notice.author:
+            message.delete()
+            return redirect(reverse_lazy('message_list'))
+        return HttpResponseForbidden()
+    except:
+        return HttpResponseForbidden()
 
-    def get(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
 
-
-class MessageDelete(LoginRequiredMixin, DeleteView):
-    model = Message
-    success_url = reverse_lazy('message_list')
-
-    def get(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
+@login_required
+def message_apply(request, pk):
+    try:
+        message = Message.objects.get(id=pk)
+        if request.user == message.notice.author:
+            message.status = False
+            message.save(update_fields=['status'])
+            return redirect(reverse_lazy('message_list'))
+        return HttpResponseForbidden()
+    except:
+        return HttpResponseForbidden()

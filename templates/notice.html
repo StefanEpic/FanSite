@@ -18,6 +18,7 @@ Notice
       <div class="demo-inline-spacing">
         <button type="button" class="btn btn-primary dropdown-toggle me-2" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
         {% if user.is_authenticated %}
+          <button type="button" class="btn btn-primary" onclick="document.location='{% url 'message_list' %}'">My messages</button>
           <button type="button" class="btn btn-success" onclick="document.location='{% url 'notice_create' %}'">Create ad</button>
         {% endif %}
         <ul class="dropdown-menu">
