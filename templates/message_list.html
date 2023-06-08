@@ -13,6 +13,7 @@ Notice
             <p>{{ message.text }}</p>
         </div>
         <div>
+            <small class="text-light fw-semibold">Date: {{ message.date_in }}</small>
             <p><small class="text-light fw-semibold">From: {{ message.author}}</small></p>
         </div>
         <button type="button" class="btn btn-sm btn-success" onclick="document.location='{% url 'message_apply' message.pk %}'">Apply</button>

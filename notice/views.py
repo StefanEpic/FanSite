@@ -15,7 +15,7 @@ class NoticeList(ListView):
     ordering = ['-date_in']
     template_name = 'notice_list.html'
     context_object_name = 'notices'
-    paginate_by = 5
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,7 +76,7 @@ class CategoryList(ListView):
     model = Notice
     template_name = 'notice_list.html'
     context_object_name = 'notices'
-    paginate_by = 5
+    paginate_by = 4
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, id=self.kwargs['pk'])
@@ -110,7 +110,7 @@ class MessageList(LoginRequiredMixin, ListView):
     model = Message
     ordering = ['-date_in']
     template_name = 'message_list.html'
-    paginate_by = 5
+    paginate_by = 4
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

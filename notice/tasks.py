@@ -6,20 +6,23 @@ from django.template.loader import render_to_string
 
 
 @shared_task
-def send_notify_about_message(title, user, email_text):
+def send_notify_about_message(message, text):
     html_content = render_to_string(
         'email/message_email.html',
         {
-            'user': user,
-            'message': email_text,
+            'user': message.author,
+            'author': message.notice.author,
+            'text': text[0],
+            'title': message.notice.title,
+            'smile': text[1],
         }
     )
 
     msg = EmailMultiAlternatives(
-        subject=title,
-        body=email_text,
+        subject=message.notice.title,
+        body='',
         from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[user.email],
+        to=[message.author.email],
     )
     msg.attach_alternative(html_content, "text/html")
     msg.send()

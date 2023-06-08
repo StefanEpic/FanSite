@@ -15,7 +15,8 @@ Notice
             {% endfor %}
         </p>
         <div>
-            <p><small class="text-light fw-semibold">Author: {{ notice.author}}</small></p>
+            <small class="text-light fw-semibold">Date: {{ notice.date_in }}</small>
+            <p><small class="text-light fw-semibold">Author: {{ notice.author }}</small></p>
         </div>
         <button type="button" class="btn btn-sm btn-primary" onclick="document.location='{{ notice.pk }}'">Info</button>
         {% if user.is_authenticated %}
