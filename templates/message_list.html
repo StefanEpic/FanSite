@@ -1,10 +1,18 @@
 {% extends 'notice.html' %}
 
+{% load custom_tags %}
+
 {% block title %}
 Notice
 {% endblock title %}
 
 {% block content_notice %}
+
+       <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
+
     {% for message in messages %}
     <div class="card mb-3">
       <div class="card-body">

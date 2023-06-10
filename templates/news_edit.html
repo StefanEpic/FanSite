@@ -1,0 +1,28 @@
+{% extends 'news.html' %}
+{% load widget_tweaks %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content_news %}
+    <div class="card md-6">
+        <div class="card-body">
+            <div>
+                <form action="" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-name">Title</label>
+                        {% render_field form.title class="form-control" type="text" value="" id="basic-default-name" placeholder="Title" %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="basic-default-name">Text</label>
+                        {{ form.text }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content_news %}

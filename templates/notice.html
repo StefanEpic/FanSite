@@ -5,34 +5,28 @@ Notice
 {% endblock title %}
 
 {% block extra_content %}
-    <!-- Nav -->
-    <div class="app-brand demo ">
-      <a href="" class="app-brand-link">
-        <span class="app-brand-text demo menu-text fw-bolder ms-4">News</span>
-      </a>
-      <a href="{% url 'notice_list' %}" class="app-brand-link">
-        <span class="app-brand-text demo menu-text fw-bolder ms-4">Ads</span>
-      </a>
-    </div>
-    <div class="container-fluid d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x mb-4">
-      <div class="demo-inline-spacing">
-        <button type="button" class="btn btn-primary dropdown-toggle me-2" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
-        {% if user.is_authenticated %}
-          <button type="button" class="btn btn-primary" onclick="document.location='{% url 'message_list' %}'">My messages</button>
-          <button type="button" class="btn btn-success" onclick="document.location='{% url 'notice_create' %}'">Create ad</button>
-        {% endif %}
-        <ul class="dropdown-menu">
-          {% for category in categories %}
-          <li><a class="dropdown-item" href="{% url 'category_list' category.id %}">{{ category }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <!-- /Nav -->
-
     <!-- Content types -->
     <div class="row mb-12 justify-content-center">
       <div class="col-md-6">
+        <!-- Nav -->
+        <div class="container-fluid d-flex flex-md-row flex-column justify-content-between align-items-md-center gap-1 container-p-x mb-4">
+          <div class="demo-inline-spacing">
+            <button type="button" class="btn btn-primary dropdown-toggle me-2" data-bs-toggle="dropdown" aria-expanded="false">Category</button>
+            <ul class="dropdown-menu">
+              {% for category in categories %}
+              <li><a class="dropdown-item" href="{% url 'category_list' category.id %}">{{ category }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="demo-inline-spacing">
+            {% if user.is_authenticated %}
+              <button type="button" class="btn btn-primary" onclick="document.location='{% url 'message_list' %}'">My messages</button>
+              <button type="button" class="btn btn-success" onclick="document.location='{% url 'notice_create' %}'">Create ad</button>
+            {% endif %}
+          </div>
+        </div>
+        <!-- /Nav -->
+
         {% block content_notice %}
         {{ content_notice }}
         {% endblock content_notice %}

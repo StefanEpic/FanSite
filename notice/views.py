@@ -8,6 +8,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from .forms import NoticeForm, MessageForm
 from .models import Notice, Category, Message
 from .utils import TestIsAuthorThisNotice
+from .filters import MessageFilter
 
 
 class NoticeList(ListView):
@@ -110,11 +111,17 @@ class MessageList(LoginRequiredMixin, ListView):
     model = Message
     ordering = ['-date_in']
     template_name = 'message_list.html'
+    context_object_name = 'messages'
     paginate_by = 4
+
+    def get_queryset(self):
+        queryset = Message.objects.filter(notice__author=self.request.user, status=True)
+        self.filterset = MessageFilter(self.request.GET, queryset)
+        return self.filterset.qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['messages'] = Message.objects.filter(notice__author=self.request.user, status=True)
+        context['filterset'] = self.filterset
         context['categories'] = Category.objects.all()
         return context
 
