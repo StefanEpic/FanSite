@@ -115,8 +115,8 @@ class MessageList(LoginRequiredMixin, ListView):
     paginate_by = 4
 
     def get_queryset(self):
-        queryset = Message.objects.filter(notice__author=self.request.user, status=True)
-        self.filterset = MessageFilter(self.request.GET, queryset)
+        queryset = Message.objects.filter(notice__author=self.request.user, status=True).order_by('-date_in')
+        self.filterset = MessageFilter(self.request.GET, queryset, request=self.request.user)
         return self.filterset.qs
 
     def get_context_data(self, **kwargs):

@@ -1,17 +1,41 @@
 {% extends 'notice.html' %}
 
 {% load custom_tags %}
+{% load widget_tweaks %}
 
 {% block title %}
 Notice
 {% endblock title %}
 
 {% block content_notice %}
+    <div class="accordion-item card mb-3">
+        <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+          <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionIcon-1" aria-controls="accordionIcon-1" aria-expanded="false">
+            Filters
+          </button>
+        </h2>
 
-       <form action="" method="get">
-       {{ filterset.form.as_p }}
-       <input type="submit" value="Найти" />
-   </form>
+        <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon" style="">
+          <div class="accordion-body">
+            <form action="" method="get">
+              <div class="col mb-3">
+                <label class="form-label" for="basic-default-notice">Title</label>
+                {% render_field filterset.form.notice class="form-select" aria-label="Default select example" id="basic-default-notice" %}
+              </div>
+              <div class="col mb-3">
+                <label class="form-label" for="basic-default-author">From</label>
+                {% render_field filterset.form.author class="form-select" aria-label="Default select example" id="basic-default-author" %}
+              </div>
+              <div class="col mb-3">
+                <label class="form-label" for="basic-default-date">Date, from</label>
+                {% render_field filterset.form.date class="form-control" type="date" id="basic-default-date" %}
+              </div>
+                <input class="btn btn-sm btn-primary" type="submit" value="Filter" />
+                <input class="btn btn-sm btn-primary ms-1" type="button" value="Reset" onclick="location.href='{% url 'message_list' %}';"/>
+            </form>
+          </div>
+        </div>
+    </div>
 
     {% for message in messages %}
     <div class="card mb-3">

@@ -19,8 +19,7 @@ class NewsList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['is_moderator'] = self.request.user.groups.filter(name='Moderators').exists()
-        context['is_subscriber'] = Subscribers.objects.filter(user=self.request.user).exists()
-        print(context['is_subscriber'])
+        context['is_subscriber'] = self.request.user.pk in Subscribers.objects.all().values_list('user_id', flat=True)
         return context
 
 

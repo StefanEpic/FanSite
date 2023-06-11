@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Daily news</title>
+</head>
+<body>
+    <h2>Hello {{ user }}!</h2>
+    <h2>We have prepared a list of interesting news for the past week!</h2>
+    <hr>
+    <ul>
+        {% for n in news %}
+        <li><a href="{{ link }}">{{ n.title }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
