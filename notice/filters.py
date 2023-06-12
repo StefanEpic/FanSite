@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.forms import DateInput
 from django_filters import FilterSet, ModelChoiceFilter, DateFilter
 from .models import Notice, Message
@@ -7,9 +8,8 @@ class MessageFilter(FilterSet):
     def __init__(self, *args, **kwargs):
         super(MessageFilter, self).__init__(*args, **kwargs)
         self.filters['notice'].queryset = Notice.objects.filter(author=kwargs['request'],
-                                                                message__status=True).distinct().order_by('-date_in')
-        self.filters['author'].queryset = Message.objects.filter(notice__author=kwargs['request']).values_list(
-            'author__username', flat=True).distinct().order_by('-date_in')
+                                                                message__status=True).distinct()
+        self.filters['author'].queryset = User.objects.filter(message__notice__author=kwargs['request']).distinct()
 
     notice = ModelChoiceFilter(
         field_name='notice',
