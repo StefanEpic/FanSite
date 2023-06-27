@@ -15,4 +15,4 @@
 <img src="https://github.com/StefanEpic/FanSite/blob/main/about/about_003.png" width="800">
 
 #### 👌 Personal page with responses to your ads:
-<img src="https://github.com/StefanEpic/FanSite/blob/main/about/about_003.png" width="800">
+<img src="https://github.com/StefanEpic/FanSite/blob/main/about/about_004.png" width="800">
