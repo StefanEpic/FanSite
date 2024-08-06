@@ -5,15 +5,6 @@
 - Post news
 - Implemented mail notifications
 
-## 😜 Demo
-You can test:
-
-👉 [FanSite](http://stefanepic.ru/fansite/):
-
-- username: admin
-- password: 12345
-
-
 #### 📰 News page:
 <img src="https://github.com/StefanEpic/FanSite/blob/main/about/about_001.png" width="800">
 
